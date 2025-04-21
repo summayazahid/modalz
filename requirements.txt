@@ -4,4 +4,3 @@ pillow
 numpy
 gdown
 opencv-python
-cv2
