@@ -1,5 +1,5 @@
-%%writefile requirements.txt
 streamlit
 tensorflow
-Pillow
+pillow
 numpy
+gdown
