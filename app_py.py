@@ -37,7 +37,7 @@ uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png
 """Step 4: Preprocess the Image"""
 
 def preprocess_image(image):
-    img = image.resize((224, 224))
+    img = image.resize((100, 75))
     img_array = tf.keras.utils.img_to_array(img)
     img_array = img_array / 255.0  # normalize
     img_array = np.expand_dims(img_array, axis=0)
