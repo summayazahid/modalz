@@ -18,7 +18,7 @@ import tensorflow as tf
 
 @st.cache_resource
 def load_model():
-    model = tf.keras.models.load_model("C:\Users\Admin\Downloads\modalz\densenet_best.h5")
+    model = tf.keras.models.load_model("skin_disease_model.h5")
     return model
 
 model = load_model()
