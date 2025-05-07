@@ -23,9 +23,7 @@ def load_model():
 
 model = load_model()
 
-class_names = ['actinic keratosis', 'basal cell carcinoma', 'dermatofibroma', 'melanoma',
-               'nevus', 'pigmented benign keratosis', 'seborrheic keratosis',
-               'squamous cell carcinoma', 'vascular lesion']
+class_names = ['pigmented benign keratosis', 'melanoma', 'vascular lesion', 'actinic keratosis', 'squamous cell carcinoma', 'basal cell carcinoma', 'seborrheic keratosis', 'dermatofibroma', 'nevus']
 
 """Step 3: Build the Streamlit UI"""
 
