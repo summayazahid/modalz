@@ -9,8 +9,8 @@ import pandas as pd
 import os
 
 # --- Configuration ---
-MODEL_PATH = 'D:\fyp\ui\skin_disease_model.h5'  # Classification model
-SEGMENTATION_MODEL_PATH = 'D:\fyp\ui\SegCNN.h5'  # Segmentation model
+MODEL_PATH = 'skin_disease_model.h5'  # Classification model
+SEGMENTATION_MODEL_PATH = 'SegCNN.h5'  # Segmentation model
 IMAGE_HEIGHT = 75
 IMAGE_WIDTH = 100
 IMAGE_SIZE = (IMAGE_HEIGHT, IMAGE_WIDTH)
