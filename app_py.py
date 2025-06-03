@@ -5,6 +5,7 @@ from tensorflow.keras.preprocessing import image as keras_image
 from PIL import Image
 import numpy as np
 import pandas as pd
+import h5py
 
 # --- Configure ---
 MODEL_PATH = 'skin_disease_model.h5'
@@ -58,19 +59,24 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- Sanitize Layer Names ---
-def fix_layer_names(model):
-    for layer in model.layers:
-        if '/' in layer.name:
-            layer._name = layer.name.replace('/', '__')
-    return model
+# --- Fix layer names in HDF5 file ---
+def sanitize_h5_model_names(file_path):
+    with h5py.File(file_path, 'r+') as f:
+        if 'model_weights' in f:
+            for layer_name in list(f['model_weights'].keys()):
+                if '/' in layer_name:
+                    sanitized = layer_name.replace('/', '__')
+                    f['model_weights'].move(layer_name, sanitized)
+        if 'layer_names' in f.attrs:
+            layer_names = [n.decode('utf-8').replace('/', '__') for n in f.attrs['layer_names']]
+            f.attrs.modify('layer_names', [n.encode('utf-8') for n in layer_names])
 
 # --- Load Models ---
 @st.cache_resource
 def load_keras_model(model_path):
     try:
+        sanitize_h5_model_names(model_path)  # Fix layer names before loading
         model = load_model(model_path, compile=False)
-        model = fix_layer_names(model)  # fix layer names here
         return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
@@ -126,7 +132,7 @@ if uploaded_file is not None:
     with st.spinner("🧪 Segmenting..."):
         segmentation_mask = generate_segmentation(img_pil, segmentation_model)
         segmentation_mask = (segmentation_mask > 0.5).astype(np.uint8)
-        segmented_image = Image.fromarray(segmentation_mask * 255)
+        segmented_image = Image.fromarray(segmentation_mask.squeeze() * 255)
 
     with col2:
         st.subheader("📈 Prediction Result")
