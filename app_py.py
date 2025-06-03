@@ -1,4 +1,3 @@
-
 import streamlit as st
 import tensorflow as tf
 from tensorflow.keras.models import load_model
@@ -26,7 +25,6 @@ label_map = {
 
 # --- Custom Styling ---
 st.set_page_config(page_title="Melanoma Detection", layout="wide")
-
 st.markdown("""
     <style>
         body {
@@ -60,11 +58,19 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# --- Sanitize Layer Names ---
+def fix_layer_names(model):
+    for layer in model.layers:
+        if '/' in layer.name:
+            layer._name = layer.name.replace('/', '__')
+    return model
+
 # --- Load Models ---
 @st.cache_resource
 def load_keras_model(model_path):
     try:
         model = load_model(model_path, compile=False)
+        model = fix_layer_names(model)  # fix layer names here
         return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
