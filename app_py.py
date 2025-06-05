@@ -9,7 +9,7 @@ import h5py
 
 # --- Configure ----
 MODEL_PATH = 'skin_disease_model.h5'
-SEGMENTATION_MODEL_PATH = 'SegCNN.h5'
+SEGMENTATION_MODEL_PATH = 'skin_disease_model_segmentation.h5'
 IMAGE_HEIGHT, IMAGE_WIDTH = 75, 100
 
 label_map = {
